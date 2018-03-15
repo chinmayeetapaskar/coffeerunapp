@@ -2,8 +2,8 @@
   'use strict';
   var FORM_SELECTOR = '[data-coffee-order="form"]';
   var CHECKLIST_SELECTOR = '[data-coffee-order="checklist"]';
-  var SERVER_URL = 'http://coffeerun-v2-rest-api.herokuapp.com/api/coffeeorders';
-
+  //var SERVER_URL = 'http://coffeerun-v2-rest-api.herokuapp.com/api/coffeeorder';
+  var SERVER_URL='http://localhost:2403/coffeeorders';
   var App = window.App;
   var Truck = App.Truck;
   var DataStore = App.DataStore;
@@ -21,6 +21,14 @@
 checkList.addClickHandler(myTruck.deliverOrder.bind(myTruck));
 
   var formHandler = new FormHandler(FORM_SELECTOR);
+  $(FORM_SELECTOR).ready(function() {
+    console.log("Page refreshed");
+    myTruck.showOrder.call(myTruck, function(serverResponse) {
+      $.each(serverResponse, function(i, coffeeOrder) {
+        checkList.addRow.call(checkList, coffeeOrder);
+      });
+    });
+  });
   formHandler.addSubmitHandler(function(data) {
     myTruck.createOrder.call(myTruck, data);
     checkList.addRow.call(checkList, data);

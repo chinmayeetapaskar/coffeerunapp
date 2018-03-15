@@ -21,7 +21,12 @@
       console.log(this.db.get(id));
     }.bind(this));
   };
-
+  Truck.prototype.showOrder = function(cb) {
+      this.db.getAll(function(serverResponse) {
+      //  console.log(serverResponse);
+        cb(serverResponse);
+      });
+    };
   App.Truck = Truck;
   window.App = App;
 })(window);
